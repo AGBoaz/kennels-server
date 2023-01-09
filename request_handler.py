@@ -1,9 +1,9 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from views import get_all_animals, get_single_animal
-from views import get_all_locations, get_single_location
-from views import get_all_customers, get_single_customer
-from views import get_all_employees, get_single_employee
+from views import get_all_animals, get_single_animal, create_animal
+from views import get_all_locations, get_single_location,create_location
+from views import get_all_customers, get_single_customer,create_customer
+from views import get_all_employees, get_single_employee, create_employee
 
 
 
@@ -69,11 +69,36 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Set response code to 'Created'
         self._set_headers(201)
-
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
-        response = {"payload": post_body}
-        self.wfile.write(json.dumps(response).encode())
+
+        # Convert JSON string to a Python dictionary
+        post_body = json.loads(post_body)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        # Initialize new animal
+        new_data = None
+
+        # Add a new animal to the list. Don't worry about
+        # the orange squiggle, you'll define the create_animal
+        # function next.
+        if resource == "animals":
+            new_data = create_animal(post_body)
+        elif resource == "locations":
+            new_data = create_location(post_body)
+        elif resource == "employees":
+            new_data = create_employee(post_body)
+        else:
+            new_data = create_customer(post_body)
+
+
+
+        # Encode the new data and send in response
+        self.wfile.write(json.dumps(new_data).encode())
+
+    
 
     # A method that handles any PUT request.
     def do_PUT(self):
