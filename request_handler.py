@@ -7,15 +7,15 @@ from views import get_animal_by_location, get_animal_by_status
 
 #locations
 from views import get_all_locations, get_single_location, create_location
-from views import delete_location, update_location
+from views import delete_location
 
 #customers
 from views import get_all_customers, get_single_customer, create_customer
-from views import delete_customer, update_customer, get_customer_by_email
+from views import delete_customer, get_customer_by_email
 
 #employees
 from views import get_all_employees, get_single_employee, create_employee
-from views import  delete_employee, update_employee, get_employee_by_location
+from views import  delete_employee, get_employee_by_location
 
 
 # Here's a class. It inherits from another class.
